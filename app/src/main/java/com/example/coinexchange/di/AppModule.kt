@@ -4,6 +4,9 @@ import android.app.Application
 import androidx.room.Room
 import com.example.coinexchange.coinExchangeFeatures.data.local.CurrencyDataBase
 import com.example.coinexchange.coinExchangeFeatures.data.remote.CurrencyApi
+import com.example.coinexchange.coinExchangeFeatures.data.repository.CurrencyRepositoryImpl
+import com.example.coinexchange.coinExchangeFeatures.domain.repository.CurrencyRepository
+import com.example.coinexchange.coinExchangeFeatures.domain.use_case.GetCurrencyRateUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -47,6 +50,21 @@ object AppModule {
             "currency_db"
         ).fallbackToDestructiveMigration()
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRepository(
+        api: CurrencyApi,
+        db: CurrencyDataBase
+    ): CurrencyRepository{
+        return CurrencyRepositoryImpl(api, db.dao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUseCase(repository: CurrencyRepository): GetCurrencyRateUseCase{
+        return GetCurrencyRateUseCase(repository)
     }
 
 }

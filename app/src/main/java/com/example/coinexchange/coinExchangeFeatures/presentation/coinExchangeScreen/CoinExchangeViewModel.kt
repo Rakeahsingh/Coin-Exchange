@@ -89,8 +89,8 @@ class CoinExchangeViewModel@Inject constructor(
                 val toValue = updatedCurrencyValue.toDoubleOrNull() ?: 0.0
                 val fromValue = toValue / toCurrencyRate * fromCurrencyRate
                 _state.update { it.copy(
-                    fromCurrencyValue = updatedCurrencyValue,
-                    toCurrencyValue = newNumberFormat.format(fromValue)
+                    toCurrencyValue = updatedCurrencyValue,
+                    fromCurrencyValue = newNumberFormat.format(fromValue)
                 ) }
             }
         }
